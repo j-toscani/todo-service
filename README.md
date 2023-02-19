@@ -1,14 +1,10 @@
-# ToDo Service
+# Yet another ToDo app
 
-This app is an attempt to create a ToDo app which mostly works inside of a service worker. It uses the following technologies:
+I created this App to help me organise myself. It will use:
 
-```
-React
-Express
-MongoDB
-ChakraUI
-```
-
-
-
-
+- MongoDB
+- IndexDB
+- Service Worker
+- React
+- Chakra UI
+- Express
