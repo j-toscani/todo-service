@@ -1,10 +1,23 @@
-import { MongoClient, ServerApiVersion } from "mongodb";
+import { Collection, MongoClient, ServerApiVersion } from "mongodb";
+import { ObjectId } from "bson";
+import dotenv from "dotenv";
 
-export let connection: MongoClient;
+let client: MongoClient;
 
-export async function connectToDb(dbUrl: string, dbName:string) {
-    const client = new MongoClient(dbUrl, { serverApi: ServerApiVersion.v1 });
-    connection = await client.connect();
+dotenv.config();
 
-    return connection.db(dbName);
+const DB_URL = process.env.DB_URL || "";
+const DB_NAME = process.env.DB_NAME || "todos";
+
+export async function connectToDb() {
+    client = new MongoClient(DB_URL, { serverApi: ServerApiVersion.v1 });
+    await client.connect();
+}
+
+export function getDb() {
+    return client.db(DB_NAME);
+}
+
+export function getCollection<T extends { _id?: ObjectId}>(name: string): Collection<T> {
+    return client.db(DB_NAME).collection<T>(name);
 }
