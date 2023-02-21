@@ -1,4 +1,4 @@
-import { Filter, FindOptions, UpdateDescription } from "mongodb";
+import { Filter, FindOptions, UpdateFilter } from "mongodb";
 import { ObjectId } from "bson";
 import { getCollection } from "../db";
 
@@ -13,8 +13,8 @@ export abstract class BaseRepository<T extends { _id?: ObjectId}> {
     return getCollection<T>(this.collectionName);
   }
 
-  update(query: Filter<T>, update: UpdateDescription<T>) {
-    return this.collection.updateOne(query, update);
+  update(query: Filter<T>, update: UpdateFilter<T>) {
+    return this.collection.updateOne(query, update, {upsert:true});
   }
 
   getOne(query: Filter<T>) {
@@ -22,13 +22,14 @@ export abstract class BaseRepository<T extends { _id?: ObjectId}> {
   }
 
   getMany(query: Filter<T>, options?: FindOptions<T>) {
-    return options
-      ? this.collection.find(query, options)
-      : this.collection.find(query);
+    const many = options
+    ? this.collection.find(query, options)
+    : this.collection.find(query)
+    return many.toArray();
   }
 
   create(entry: T) {
-     // necessary because: https://github.com/DefinitelyTyped/DefinitelyTyped/issues/46375
+    // necessary because: https://github.com/DefinitelyTyped/DefinitelyTyped/issues/46375
     //@ts-expect-error
     return this.collection.insertOne(entry);
   }
