@@ -1,23 +1,14 @@
 import express from "express";
-import logger from "./logger";
+import logRequest from "./middleware/logRequest";
+import handleError from "./middleware/handleError";
 import router from "./routes";
 
 const app = express();
 app.use(express.json());
+app.use(logRequest);
 
-app.use((req, _res, next) => {
-    try {
-        next()
-    } catch (error) {
-        next(error)
-    }
-})
+app.use(handleError);
 
-app.use((req, _res, next) => {
-    const { path, method } = req;
-    logger.info(`[${method}]: ${path}`);
-    next();
-})
 app.use(router);
 
 export default app;
