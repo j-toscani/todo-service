@@ -1,34 +1,50 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import './App.css'
+import {
+  TextInput,
+  Textarea,
+  Button,
+  Container,
+  Stack,
+  Center,
+} from "@mantine/core";
+import { useForm } from "@mantine/form";
 
 function App() {
-  const [count, setCount] = useState(0)
+  const form = useForm({
+    initialValues: {
+      title: "",
+      description: "",
+    },
+  });
 
   return (
     <div className="App">
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src="/vite.svg" className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://reactjs.org" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <Container size="xs">
+        <form
+          onSubmit={form.onSubmit((values) => {
+            console.log(values);
+            form.reset();
+          })}
+        >
+          <Stack>
+            <TextInput
+              label="Summary:"
+              placeholder="Wash car."
+              {...form.getInputProps("title")}
+            />
+            <Textarea
+              label="Description:"
+              {...form.getInputProps("description")}
+              placeholder="We want to go away for the weekend. Wash the car so it`ll be nicer to drive with"
+              minRows={6}
+            />
+            <Center>
+              <Button type="submit"> Submit </Button>
+            </Center>
+          </Stack>
+        </form>
+      </Container>
     </div>
-  )
+  );
 }
 
-export default App
+export default App;
