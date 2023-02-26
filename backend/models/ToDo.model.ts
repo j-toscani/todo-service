@@ -11,7 +11,7 @@ export enum ToDoStatus {
 export type ToDoModel = {
   _id?: ObjectId;
   createdAt: string;
-  completedAt: string | null;
+  completedAt?: string;
   title: string;
   description: string;
   status: ToDoStatus;
