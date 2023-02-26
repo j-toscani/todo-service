@@ -6,5 +6,5 @@ I created this App to help me organise myself. It will use:
 - IndexDB
 - Service Worker
 - React
-- Chakra UI
+- Mantine
 - Express
