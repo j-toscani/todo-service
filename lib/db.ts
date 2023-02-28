@@ -1,7 +1,7 @@
 import { Collection, MongoClient, ServerApiVersion } from "mongodb";
 import { ObjectId } from "bson";
 import dotenv from "dotenv";
-import { setTodoSchema } from "./models/ToDo.model";
+import { setTodoSchema } from "../models/ToDo.model";
 
 let client: MongoClient;
 

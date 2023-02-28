@@ -1,7 +1,7 @@
 import dotenv from "dotenv";
 import app from "./server";
-import { connectToDb } from "./db";
-import logger from "./logger";
+import { connectToDb } from "./lib/db";
+import logger from "./lib/logger";
 
 dotenv.config();
 const PORT = process.env.PORT || 3001;

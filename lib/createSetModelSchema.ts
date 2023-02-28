@@ -1,5 +1,5 @@
 import { Db } from "mongodb";
-import { getDb } from "../db";
+import { getDb } from "./db";
 
 export default function createSetModelSchema(name: string, schema: any) {
   return async () => {
