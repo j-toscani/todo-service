@@ -1,6 +1,6 @@
 import { ObjectId } from "bson";
 import { Request, Response, Router } from "express";
-import { ApiError, BadRequestError, NotFoundError } from "../lib/ApiError";
+import { NotFoundError } from "../lib/ApiError";
 import asyncHandler from "../lib/asyncHandler";
 import { sendEmpty, sendError, sendSuccess } from "../lib/responseSender";
 import { ToDoStatus } from "../models/ToDo.model";
@@ -9,7 +9,8 @@ import ToDoRepository from "../repositories/ToDo.repository";
 const router = Router();
 
 router.get("/", asyncHandler(getTodos));
-router.post("/", asyncHandler(upsertTodo));
+router.post("/new", asyncHandler(createTodo));
+router.post("/:id", asyncHandler(updateTodo));
 router.get("/:id", asyncHandler(getTodo));
 router.delete("/:id", asyncHandler(deleteTodo));
 
@@ -47,11 +48,20 @@ async function deleteTodo(req: Request, res: Response) {
   sendSuccess(res, result);
 }
 
-async function upsertTodo(req: Request, res: Response) {
-  const data = createDefaultTodo(req.body.data);
+async function createTodo(req: Request, res: Response) {
   const repository = new ToDoRepository();
-  const result = await repository.update(data._id ? { _id: data._id } : {}, {
-    $set: data,
+  const data = createDefaultTodo(req.body.data);
+
+  const result = await repository.create(data);
+  sendSuccess(res, result);
+}
+
+async function updateTodo(req: Request, res: Response) {
+  const { params } = req;
+
+  const repository = new ToDoRepository();
+  const result = await repository.update({ _id: new ObjectId(params.id) }, {
+    $set: req.body.data,
   });
   sendSuccess(res, result)
 }
