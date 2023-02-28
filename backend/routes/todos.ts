@@ -51,7 +51,7 @@ async function deleteTodo(req: Request, res: Response) {
 async function createTodo(req: Request, res: Response) {
   const repository = new ToDoRepository();
   const data = createDefaultTodo(req.body.data);
-
+  
   const result = await repository.create(data);
   sendSuccess(res, result);
 }
@@ -71,17 +71,14 @@ function createDefaultTodo(data: Record<string, any>) {
     _id,
     createdAt = new Date().toString(),
     status = ToDoStatus.NEW,
-    title,
-    description,
-    completedAt,
   } = data;
 
   return {
+    ...data,
     createdAt,
+    title: data.title ?? "",
+    description: data.description ?? "",
     status,
-    title,
-    description,
-    ...(completedAt && { completedAt }),
     _id,
   };
 }
