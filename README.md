@@ -3,8 +3,9 @@
 I created this App to help me organise myself. It will use:
 
 - MongoDB
+- Zod
+- Express
 - IndexDB
 - Service Worker
 - React
-- Chakra UI
-- Express
+- Mantine
