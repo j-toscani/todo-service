@@ -1,7 +1,7 @@
 import express from "express";
-import logRequest from "./middleware/logRequest";
-import handleError from "./middleware/handleError";
-import router from "./routes";
+import logRequest from "./middleware/logRequest.js";
+import handleError from "./middleware/handleError.js";
+import router from "./routes/index.js";
 import cors from "cors";
 
 const app = express();

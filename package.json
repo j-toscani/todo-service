@@ -5,9 +5,10 @@
   "type": "module",
   "scripts": {
     "backedn:dev": "nodemon main.ts",
-    "backend:build": "tsc",
+    "backend:build": "cd backend && tsc && cd ..",
+    "app:build": "npm run backend:build && npm run frontend:build",
     "frontend:dev": "cd frontend && vite",
-    "frontend:build": "cd frontend && tsc && vite build",
+    "frontend:build": "cd frontend && vite build && cd ../",
     "frontend:preview": "cd frontend && vite preview"
   },
   "dependencies": {

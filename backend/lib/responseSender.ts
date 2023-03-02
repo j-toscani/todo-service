@@ -1,6 +1,5 @@
 import { Response } from "express";
-import logger from "./logger";
-import { ApiError } from "./ApiError";
+import { ApiError } from "./ApiError.js";
 
 function sendResponse<T>(res: Response, status: number, data: T) {
     res.status(status).send(data);

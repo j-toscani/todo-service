@@ -1,6 +1,6 @@
 import { Filter, FindOptions, UpdateFilter } from "mongodb";
 import { ObjectId } from "bson";
-import { getCollection } from "../lib/db";
+import { getCollection } from "../lib/db.js";
 
 export abstract class BaseRepository<T extends { _id?: ObjectId}> {
   collectionName : string;
