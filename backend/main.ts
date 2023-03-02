@@ -1,7 +1,7 @@
 import dotenv from "dotenv";
-import app from "./server";
-import { connectToDb } from "./db";
-import logger from "./logger";
+import app from "./server.js";
+import { connectToDb } from "./lib/db.js";
+import logger from "./lib/logger.js";
 
 dotenv.config();
 const PORT = process.env.PORT || 3001;

@@ -1,10 +1,10 @@
 import { ObjectId } from "bson";
 import { Request, Response, Router } from "express";
-import { NotFoundError } from "../lib/ApiError";
-import asyncHandler from "../lib/asyncHandler";
-import { sendEmpty, sendError, sendSuccess } from "../lib/responseSender";
-import { ToDoStatus } from "../models/ToDo.model";
-import ToDoRepository from "../repositories/ToDo.repository";
+import { NotFoundError } from "../lib/ApiError.js";
+import asyncHandler from "../lib/asyncHandler.js";
+import { sendEmpty, sendError, sendSuccess } from "../lib/responseSender.js";
+import { ToDoStatus } from "../models/ToDo.model.js";
+import ToDoRepository from "../repositories/ToDo.repository.js";
 
 const router = Router();
 

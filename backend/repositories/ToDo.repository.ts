@@ -1,5 +1,5 @@
-import { COLLECTION_NAME, ToDoModel } from "../models/ToDo.model";
-import { BaseRepository } from "./Base.repository";
+import { COLLECTION_NAME, ToDoModel } from "../models/ToDo.model.js";
+import { BaseRepository } from "./Base.repository.js";
 
 export default class ToDoRepository extends BaseRepository<ToDoModel> {
   constructor() {

@@ -1,5 +1,5 @@
 import { ObjectId } from "bson";
-import createSetModelSchema from "../lib/createSetModelSchema";
+import createSetModelSchema from "../lib/createSetModelSchema.js";
 
 export const COLLECTION_NAME = "todos";
 

@@ -1,8 +1,7 @@
-import { NextFunction } from "connect";
-import { Request, Response } from "express";
-import { ApiError, BadRequestError, InternalServerError } from "../lib/ApiError";
-import { sendError } from "../lib/responseSender";
-import logger from "../logger";
+import { Request, Response, NextFunction } from "express";
+import { ApiError, BadRequestError, InternalServerError } from "../lib/ApiError.js";
+import { sendError } from "../lib/responseSender.js";
+import logger from "../lib/logger.js";
 
 export default function handleError(
     error: Error,
