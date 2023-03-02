@@ -1,4 +1,4 @@
-FROM harbor.eos.netrtl.com/docker/library/node:18-alpine as node-alpine
+FROM node:18-alpine as node-alpine
 
 # Builder Stage
 FROM node-alpine as builder
