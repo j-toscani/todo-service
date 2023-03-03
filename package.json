@@ -4,12 +4,13 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "backend:dev": "nodemon main.ts",
-    "backend:build": "cd backend && tsc && cd ..",
+    "backend:dev": "nodemon backend/main.ts",
+    "backend:build": "tsc --project backend/tsconfig.json",
     "app:build": "npm run backend:build && npm run frontend:build",
-    "frontend:dev": "cd frontend && vite",
-    "frontend:build": "cd frontend && vite build && cd ../",
-    "frontend:preview": "cd frontend && vite preview"
+    "app:dev": "npm run backend:dev & npm run frontend:dev",
+    "frontend:dev": "vite frontend",
+    "frontend:build": "vite build frontend",
+    "frontend:preview": "vite preview frontend"
   },
   "dependencies": {
     "@emotion/react": "^11.10.6",

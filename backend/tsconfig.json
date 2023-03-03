@@ -9,5 +9,8 @@
     "skipLibCheck": true,
     "outDir": "../dist"
   },
+  "ts-node": {
+    "esm": true
+  },
   "exclude": ["frontend"]
 }
