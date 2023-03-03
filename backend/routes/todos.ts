@@ -2,15 +2,16 @@ import { ObjectId } from "bson";
 import { Request, Response, Router } from "express";
 import { NotFoundError } from "../lib/ApiError.js";
 import asyncHandler from "../lib/asyncHandler.js";
-import { sendEmpty, sendError, sendSuccess } from "../lib/responseSender.js";
-import { ToDoStatus } from "../models/ToDo.model.js";
+import { sendEmpty, sendSuccess } from "../lib/responseSender.js";
+import validateBody from "../middleware/validateBody.js";
+import { ToDoSchema, ToDoStatus } from "../models/ToDo.model.js";
 import ToDoRepository from "../repositories/ToDo.repository.js";
 
 const router = Router();
 
 router.get("/", asyncHandler(getTodos));
-router.post("/new", asyncHandler(createTodo));
-router.post("/:id", asyncHandler(updateTodo));
+router.post("/new", validateBody(ToDoSchema), asyncHandler(createTodo));
+router.post("/:id", validateBody(ToDoSchema.partial()), asyncHandler(updateTodo));
 router.get("/:id", asyncHandler(getTodo));
 router.delete("/:id", asyncHandler(deleteTodo));
 

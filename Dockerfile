@@ -22,5 +22,4 @@ COPY --from=builder /home/node/dist ./
 COPY --from=builder /home/node/node_modules ./node_modules
 COPY --from=builder /home/node/package.json ./package.json
 
-EXPOSE 3001
 CMD ["node", "main.js" ]
