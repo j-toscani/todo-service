@@ -1,6 +1,6 @@
 import { ApiToDo } from "../types/ToDo.interface";
 
-const BACKEND_URL = import.meta.env.BASE_URL;
+const BACKEND_URL = import.meta.env.DEV ? '/_api/' : import.meta.env.BASE_URL;
 
 export type ApiResult<T> = { data: T | null; error: Error | null };
 
