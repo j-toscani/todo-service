@@ -8,7 +8,7 @@ export enum ToDoStatus {
 }
 
 export const ToDoSchema = z.object({
-  createdAt: z.string(),
+  createdAt: z.string().optional(),
   compleatedAt: z.string().optional(),
   title: z.string(),
   description: z.string(),

@@ -1,17 +1,18 @@
 import { ApiToDo } from "../types/ToDo.interface";
 
-const BACKEND_URL = "http://localhost:3001";
+const BACKEND_URL = import.meta.env.BASE_URL;
+
 export type ApiResult<T> = { data: T | null; error: Error | null };
 
 function useToDoApi<T = ApiToDo>() {
   return {
     deleteToDo(id: string) {
-      return fetchFromApi<T>(`${BACKEND_URL}/todo/${id}`, {
+      return fetchFromApi<T>(`${BACKEND_URL}todo/${id}`, {
         method: "DELETE",
       });
     },
     createToDo(data: Partial<ApiToDo>) {
-      return fetchFromApi<T>(`${BACKEND_URL}/todo/new`, {
+      return fetchFromApi<T>(`${BACKEND_URL}todo/new`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -20,7 +21,7 @@ function useToDoApi<T = ApiToDo>() {
       });
     },
     updateToDo(data: ApiToDo, id: string) {
-      return fetchFromApi<T>(`${BACKEND_URL}/todo/${id}`, {
+      return fetchFromApi<T>(`${BACKEND_URL}todo/${id}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -30,11 +31,11 @@ function useToDoApi<T = ApiToDo>() {
     },
     getToDos(query?: string) {
       return fetchFromApi<T[]>(
-        `${BACKEND_URL}/todo${query ? `?query=${query}` : ""}`
+        `${BACKEND_URL}todo${query ? `?query=${query}` : ""}`
       );
     },
     getToDo(id: string) {
-      return fetchFromApi<T>(`${BACKEND_URL}/todo/${id}`);
+      return fetchFromApi<T>(`${BACKEND_URL}todo/${id}`);
     },
   };
 }
@@ -52,7 +53,7 @@ async function fetchFromApi<T>(
   try {
     if (!response.ok) {
       throw new Error(
-        `Response from was not ok: [${response.status}] ${
+        `Response was not ok: [${response.status}] ${
           options[1]?.method ?? "GET"
         }: ${options[0]}`
       );

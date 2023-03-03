@@ -11,7 +11,8 @@ export default function handleError(
     next: NextFunction
   ) {
     if (error instanceof ZodError) {
-      error = new BadRequestError(error.issues.map(issue => issue.message).join("\n"));
+      console.log(error.issues);
+      error = new BadRequestError(error.issues.map(issue => `Incorrect value for [${issue.path.join(" -> ")}]`).join("\n"));
     }
 
     const apiError =
