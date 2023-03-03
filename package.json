@@ -4,7 +4,7 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "backedn:dev": "nodemon main.ts",
+    "backend:dev": "nodemon main.ts",
     "backend:build": "cd backend && tsc && cd ..",
     "app:build": "npm run backend:build && npm run frontend:build",
     "frontend:dev": "cd frontend && vite",
