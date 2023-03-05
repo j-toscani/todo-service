@@ -20,7 +20,7 @@ function useToDoApi<T = ApiToDo>() {
         body: JSON.stringify({ data }),
       });
     },
-    updateToDo(data: ApiToDo, id: string) {
+    updateToDo(data: Partial<ApiToDo>, id: string) {
       return fetchFromApi<T>(`${BACKEND_URL}todo/${id}`, {
         method: "POST",
         headers: {
@@ -29,9 +29,10 @@ function useToDoApi<T = ApiToDo>() {
         body: JSON.stringify({ data }),
       });
     },
-    getToDos(query?: string) {
+    getToDos(query?: Record<string, any>) {
+
       return fetchFromApi<T[]>(
-        `${BACKEND_URL}todo${query ? `?query=${query}` : ""}`
+        `${BACKEND_URL}todo`
       );
     },
     getToDo(id: string) {

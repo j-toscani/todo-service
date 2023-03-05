@@ -4,7 +4,7 @@ import { NotFoundError } from "../lib/ApiError.js";
 import asyncHandler from "../lib/asyncHandler.js";
 import { sendEmpty, sendSuccess } from "../lib/responseSender.js";
 import validateBody from "../middleware/validateBody.js";
-import { ToDoSchema, ToDoStatus } from "../models/ToDo.model.js";
+import { ToDoSchema } from "../models/ToDo.model.js";
 import ToDoRepository from "../repositories/ToDo.repository.js";
 
 const router = Router();
@@ -19,8 +19,7 @@ export default router;
 
 async function getTodos(_req: Request, res: Response) {
   const repository = new ToDoRepository();
-
-  const todos = await repository.getMany({});
+  const todos = await repository.getMany({}, {sort: {done: 1}});
 
   if (todos) {
     sendSuccess(res, todos);
@@ -71,7 +70,7 @@ function createDefaultTodo(data: Record<string, any>) {
   const {
     _id,
     createdAt = new Date().toString(),
-    status = ToDoStatus.NEW,
+    done = false,
   } = data;
 
   return {
@@ -79,7 +78,7 @@ function createDefaultTodo(data: Record<string, any>) {
     createdAt,
     title: data.title ?? "",
     description: data.description ?? "",
-    status,
+    done,
     _id,
   };
 }

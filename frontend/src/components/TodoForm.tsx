@@ -1,7 +1,7 @@
 import { TextInput, Textarea, Button, Stack, Center } from "@mantine/core";
 import { useForm } from "@mantine/form";
-import useToDoApi, { ApiResult } from "../hooks/toDoApi";
-import { ApiToDo, ToDoStatus } from "../types/ToDo.interface";
+import { ApiResult } from "../hooks/toDoApi";
+import { ApiToDo } from "../types/ToDo.interface";
 
 function TodoForm(props: { id?: string, handleSubmit: (values: Partial<ApiToDo>) => Promise<ApiResult<ApiToDo>> | Promise<void>}) {
   const form = useForm({
@@ -13,7 +13,7 @@ function TodoForm(props: { id?: string, handleSubmit: (values: Partial<ApiToDo>)
   return (
     <form
       onSubmit={form.onSubmit((values) => {
-        props.handleSubmit({ ...values, status: ToDoStatus.NEW })
+        props.handleSubmit({ ...values, done: false })
           .then(() => form.reset())
           .catch(console.error);
       })}
