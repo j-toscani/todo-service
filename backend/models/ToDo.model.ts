@@ -2,17 +2,13 @@ import { z } from "zod";
 import createSetModelSchema from "../lib/createSetModelSchema.js";
 
 export const COLLECTION_NAME = "todos";
-export enum ToDoStatus {
-  NEW = "new",
-  DONE = "done"
-}
 
 export const ToDoSchema = z.object({
   createdAt: z.string().optional(),
   compleatedAt: z.string().optional(),
   title: z.string(),
   description: z.string(),
-  status: z.enum([ToDoStatus.NEW, ToDoStatus.DONE])
+  done: z.boolean(),
 })
 
 export type ToDoModel = z.infer<typeof ToDoSchema>
@@ -26,8 +22,8 @@ export const schema = {
       bsonType: "string",
       description: "Concise summary of todo. Must be string and is required.",
     },
-    status: {
-      enum: [ToDoStatus.NEW, ToDoStatus.DONE],
+    done: {
+      bsonType: "boolean",
       description: "Describes the status the todo is in. Is required.",
     },
     description: {

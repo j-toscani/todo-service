@@ -3,6 +3,7 @@ import { ApiToDo } from "../types/ToDo.interface";
 const BACKEND_URL = import.meta.env.DEV ? '/_api/' : import.meta.env.BASE_URL;
 
 export type ApiResult<T> = { data: T | null; error: Error | null };
+type ApiQueryOption<T extends keyof ApiToDo = keyof ApiToDo> = Partial<Record<T, ApiToDo[T]>>
 
 function useToDoApi<T = ApiToDo>() {
   return {
@@ -11,6 +12,7 @@ function useToDoApi<T = ApiToDo>() {
         method: "DELETE",
       });
     },
+
     createToDo(data: Partial<ApiToDo>) {
       return fetchFromApi<T>(`${BACKEND_URL}todo/new`, {
         method: "POST",
@@ -20,7 +22,8 @@ function useToDoApi<T = ApiToDo>() {
         body: JSON.stringify({ data }),
       });
     },
-    updateToDo(data: ApiToDo, id: string) {
+
+    updateToDo(data: Partial<ApiToDo>, id: string) {
       return fetchFromApi<T>(`${BACKEND_URL}todo/${id}`, {
         method: "POST",
         headers: {
@@ -29,11 +32,14 @@ function useToDoApi<T = ApiToDo>() {
         body: JSON.stringify({ data }),
       });
     },
-    getToDos(query?: string) {
+
+    getToDos(query: ApiQueryOption = {}) {
+      const queryString = Object.entries(query).map(([key, value]) => `${key}=${value}`).join("&");
       return fetchFromApi<T[]>(
-        `${BACKEND_URL}todo${query ? `?query=${query}` : ""}`
+        `${BACKEND_URL}todo${query ? `?${queryString}` : ""}`
       );
     },
+
     getToDo(id: string) {
       return fetchFromApi<T>(`${BACKEND_URL}todo/${id}`);
     },
