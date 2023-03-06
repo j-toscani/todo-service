@@ -1,4 +1,4 @@
-import { Container, Stack } from "@mantine/core";
+import { Container, Stack, Title } from "@mantine/core";
 import { useEffect, useState } from "react";
 import ToDoCard from "./components/ToDoCard";
 import TodoForm from "./components/TodoForm";
@@ -27,10 +27,23 @@ function App() {
     <div>
       <Container size="xs">
         <TodoForm handleSubmit={createToDo} />
+
+        <Title order={2}>ToDos:</Title>
+        <Stack spacing="md" mb="lg">
+          {todos
+            .filter((todo) => !todo.done)
+            .map((todo) => (
+              <ToDoCard todo={todo} key={todo._id} onUpdate={fetchToDos} />
+            ))}
+        </Stack>
+
+        <Title order={2}>Done ToDos:</Title>
         <Stack spacing="md">
-          {todos.map((todo) => (
-            <ToDoCard todo={todo} key={todo._id} onUpdate={fetchToDos} />
-          ))}
+          {todos
+            .filter((todo) => todo.done)
+            .map((todo) => (
+              <ToDoCard todo={todo} key={todo._id} onUpdate={fetchToDos} />
+            ))}
         </Stack>
       </Container>
     </div>
