@@ -1,5 +1,6 @@
 import { ObjectId } from "bson";
 import { Request, Response, Router } from "express";
+import { ParsedQs } from "qs";
 import { NotFoundError } from "../lib/ApiError.js";
 import asyncHandler from "../lib/asyncHandler.js";
 import { sendEmpty, sendSuccess } from "../lib/responseSender.js";
@@ -17,9 +18,9 @@ router.delete("/:id", asyncHandler(deleteTodo));
 
 export default router;
 
-async function getTodos(_req: Request, res: Response) {
-  const repository = new ToDoRepository();
-  const todos = await repository.getMany({}, {sort: {done: 1}});
+async function getTodos(req: Request, res: Response) {
+  const repository = new ToDoRepository()
+  const todos = await repository.getMany(parseQuery(req.query), {sort: {done: 1}});
 
   if (todos) {
     sendSuccess(res, todos);
@@ -81,4 +82,32 @@ function createDefaultTodo(data: Record<string, any>) {
     done,
     _id,
   };
+}
+
+function parseQuery(query: ParsedQs = {}) {
+  const tmp = {...query};
+
+  for (const entry of Object.entries(tmp)) {
+    const [key, value] = entry;
+    tmp[key] = parseQueryValue(value);
+  }
+  return tmp;
+}
+
+function parseQueryValue(value: any) {
+  if (Array.isArray(value)) return value;
+  if (value === null) return null;
+  if (typeof value === 'object') return parseQuery(value);
+
+  const maybeNumber = parseInt(value);
+  if(!isNaN(maybeNumber)) return maybeNumber;
+
+  switch (value) {
+    case "false":
+      return false;
+    case "true":
+      return true;
+    default:
+      return value
+  }
 }
