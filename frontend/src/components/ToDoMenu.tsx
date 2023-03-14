@@ -1,5 +1,5 @@
 import { ActionIcon, Menu } from "@mantine/core";
-import { IconSettings, IconEdit, IconEraser } from "@tabler/icons-react";
+import { IconSettings, IconEdit, IconTrash } from "@tabler/icons-react";
 
 function ToDoMenu(props: { onEdit: () => void; onDelete: () => void }) {
   return (
@@ -14,7 +14,7 @@ function ToDoMenu(props: { onEdit: () => void; onDelete: () => void }) {
         <Menu.Item icon={<IconEdit size={14} onClick={props.onEdit} />}>
           Edit
         </Menu.Item>
-        <Menu.Item icon={<IconEraser size={14} />} onClick={props.onDelete}>
+        <Menu.Item color={"red"} icon={<IconTrash size={14}  />} onClick={props.onDelete}>
           Delete
         </Menu.Item>
       </Menu.Dropdown>
