@@ -1,9 +1,13 @@
 import { ApiToDo } from "../types/ToDo.interface";
 
-const BACKEND_URL = import.meta.env.DEV ? '/_api/' : import.meta.env.BASE_URL;
+const BACKEND_URL = import.meta.env.DEV ? "/_api/" : import.meta.env.BASE_URL;
 
-export type ApiResult<T> = { data: T | null; error: Error | null };
-type ApiQueryOption<T extends keyof ApiToDo = keyof ApiToDo> = Partial<Record<T, ApiToDo[T]>>
+export type ApiResult<T> =
+  | { data: T; error: null }
+  | { data: null; error: Error };
+type ApiQueryOption<T extends keyof ApiToDo = keyof ApiToDo> = Partial<
+  Record<T, ApiToDo[T]>
+>;
 
 function useToDoApi<T = ApiToDo>() {
   return {
@@ -34,7 +38,9 @@ function useToDoApi<T = ApiToDo>() {
     },
 
     getToDos(query: ApiQueryOption = {}) {
-      const queryString = Object.entries(query).map(([key, value]) => `${key}=${value}`).join("&");
+      const queryString = Object.entries(query)
+        .map(([key, value]) => `${key}=${value}`)
+        .join("&");
       return fetchFromApi<T[]>(
         `${BACKEND_URL}todo${query ? `?${queryString}` : ""}`
       );
@@ -51,11 +57,6 @@ async function fetchFromApi<T>(
 ): Promise<ApiResult<T>> {
   const response = await fetch(...options);
 
-  const result = {
-    data: null,
-    error: null,
-  };
-
   try {
     if (!response.ok) {
       throw new Error(
@@ -65,12 +66,10 @@ async function fetchFromApi<T>(
       );
     }
 
-    result.data = await response.json();
+    return { data: await response.json(), error: null };
   } catch (error: any) {
-    result.error = error;
+    return { data: null, error: error };
   }
-
-  return result;
 }
 
 export default useToDoApi;

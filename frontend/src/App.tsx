@@ -16,11 +16,10 @@ function App() {
 
   async function fetchToDos() {
     const todos = await getToDos();
+    
     if (todos.data) {
       setToDos(todos.data);
-    }
-
-    if(todos.error) {
+    } else {
       console.error(todos.error);
     }
   }
