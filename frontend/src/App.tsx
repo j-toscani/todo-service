@@ -1,4 +1,4 @@
-import { Container, Stack, Title } from "@mantine/core";
+import { Container, Stack, Title, Text, Box } from "@mantine/core";
 import { useEffect, useState } from "react";
 import ToDoCard from "./components/ToDoCard";
 import TodoForm from "./components/TodoForm";
@@ -8,43 +8,44 @@ import { ApiToDo } from "./types/ToDo.interface";
 function App() {
   const { createToDo, getToDos } = useToDoApi();
 
-  const [todos, setTodos] = useState<ApiToDo[]>([]);
+  const [todos, setToDos] = useState<ApiToDo[]>([]);
 
   useEffect(() => {
     fetchToDos();
   }, []);
 
-  function fetchToDos() {
-    getToDos()
-      .then((response) => {
-        if (!response.data) return;
-        setTodos(response.data);
-      })
-      .catch(console.error);
+  async function fetchToDos() {
+    const todos = await getToDos();
+    if (todos.data) {
+      setToDos(todos.data);
+    }
+
+    if(todos.error) {
+      console.error(todos.error);
+    }
   }
 
   return (
     <div>
       <Container size="xs">
         <TodoForm handleSubmit={createToDo} />
+        <Box my={"xl"}>
+          {todos.length === 0 && (
+            <Box my="md">
+              <Text fz={"xl"} align="center">
+                No ToDos yet.
+              </Text>
+              <Text align="center">
+                Click the '+' icon to create your first ToDo!
+              </Text>
+            </Box>
+          )}
 
-        <Title order={2}>ToDos:</Title>
-        <Stack spacing="md" mb="lg">
-          {todos
-            .filter((todo) => !todo.done)
-            .map((todo) => (
+          {todos.length > 0 &&
+            todos.map((todo) => (
               <ToDoCard todo={todo} key={todo._id} onUpdate={fetchToDos} />
             ))}
-        </Stack>
-
-        <Title order={2}>Done ToDos:</Title>
-        <Stack spacing="md">
-          {todos
-            .filter((todo) => todo.done)
-            .map((todo) => (
-              <ToDoCard todo={todo} key={todo._id} onUpdate={fetchToDos} />
-            ))}
-        </Stack>
+        </Box>
       </Container>
     </div>
   );
